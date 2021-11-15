@@ -1,8 +1,10 @@
 import express from 'express'
 import fetch from 'node-fetch'
 import morgan from 'morgan'
+import cors from 'cors'
 
 const app = express()
+
 
 const PORT = process.env.PORT || 6000;
 const API_BASE_URL = process.env.API_BASE_URL || 'http://localhost:5000'
@@ -10,6 +12,7 @@ const API_BASE_URL = process.env.API_BASE_URL || 'http://localhost:5000'
 const timestampEndpoint = `${API_BASE_URL}/api/timestamp`;
 
 app.use(morgan('dev'));
+app.use(cors({ optionsSuccessStatus: 200 }));  // some legacy browsers choke on 204
 
 app.get('/api', async (req, res, next) => {
   try {
