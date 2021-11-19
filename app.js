@@ -19,8 +19,14 @@ app.use(express.urlencoded({ extended: true }));/*
 */
 app.post('/api/shorturl', async (req, res, next) => {
   try {
-    const response = await fetch(shorturlEndpoint)
+    const response = await fetch(shorturlEndpoint, {
+      method: 'POST',
+      body: req.body,
+      headers: { 'Content-Type': 'application/json' },
+    });
+    
     const url = await response.json();
+    console.log('URL: ', url);
 
     res.send(url)
   } catch (error) {
