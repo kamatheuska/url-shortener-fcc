@@ -12,17 +12,17 @@ const shorturlEndpoint = `${API_BASE_URL}/api/shorturl`;
 
 app.use(morgan('dev'));
 app.use(cors({ optionsSuccessStatus: 200 }));  // some legacy browsers choke on 204
-
-/*
+app.use(express.json({ limit: '10kb' }));
+app.use(express.urlencoded({ extended: true }));/*
 * To see the code for this answer
 * go to https://github.com/kamatheuska/portfolio/blob/master/controllers/urlShortener.js#L6
 */
-app.get('/api/shorturl', async (req, res, next) => {
+app.post('/api/shorturl', async (req, res, next) => {
   try {
     const response = await fetch(shorturlEndpoint)
-    const result = await response.json();
+    const url = await response.json();
 
-    res.send(result)
+    res.send(url)
   } catch (error) {
     next(error)
   }
@@ -37,9 +37,9 @@ app.get('/api/shorturl/:id', async (req, res, next) => {
     const { id } = req.params
     const response = await fetch(`${shorturlEndpoint}/${id}?json=true`)
 
-    const result = await response.json();
+    const url = await response.json()
 
-    res.send(result)
+    res.redirect(302, url.original)
   } catch (error) {
     next(error)
   }
