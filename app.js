@@ -21,7 +21,7 @@ app.post('/api/shorturl', async (req, res, next) => {
   try {
     const response = await fetch(shorturlEndpoint, {
       method: 'POST',
-      body: req.body,
+      body: JSON.stringify(req.body),
       headers: { 'Content-Type': 'application/json' },
     });
     
