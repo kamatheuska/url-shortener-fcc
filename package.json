@@ -1,7 +1,7 @@
 {
-  "name": "timestamp-fcc",
+  "name": "url-shortener-fcc",
   "version": "1.0.0",
-  "description": "a redirect server to solve fcc challenge of timestamp",
+  "description": "a redirect server to solve fcc challenge of url shortener",
   "main": "app.js",
   "type": "module",
   "scripts": {

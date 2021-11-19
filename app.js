@@ -9,30 +9,30 @@ const app = express()
 const PORT = process.env.PORT || 6000;
 const API_BASE_URL = process.env.API_BASE_URL || 'http://localhost:5000'
 
-const timestampEndpoint = `${API_BASE_URL}/api/timestamp`;
+const shorturlEndpoint = `${API_BASE_URL}/api/shorturl`;
 
 app.use(morgan('dev'));
 app.use(cors({ optionsSuccessStatus: 200 }));  // some legacy browsers choke on 204
 
-app.get('/api', async (req, res, next) => {
+app.get('/api/shorturl', async (req, res, next) => {
   try {
-    const response = await fetch(timestampEndpoint)
-    const timestamp = await response.json();
+    const response = await fetch(shorturlEndpoint)
+    const result = await response.json();
 
-    res.send(timestamp)
+    res.send(result)
   } catch (error) {
     next(error)
   }
 })
 
-app.get('/api/:date', async (req, res, next) => {
+app.get('/api/:id', async (req, res, next) => {
   try {
-    const date = req.params.date
-    const response = await fetch(`${timestampEndpoint}/${date}`)
+    const { id } = req.params
+    const response = await fetch(`${shorturlEndpoint}/${id}`)
 
-    const timestamp = await response.json();
+    const result = await response.json();
 
-    res.send(timestamp)
+    res.send(result)
   } catch (error) {
     next(error)
   }
@@ -40,7 +40,7 @@ app.get('/api/:date', async (req, res, next) => {
 
 app.use((error, req, res, next) => {
   console.error(error)
-  res.status(400).send()
+  res.status(400).send({ error: 'invalid url' });
 })
 
 app.listen(PORT, () => {
